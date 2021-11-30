@@ -1,7 +1,7 @@
 const userModel = require("./../../db/models/user");
 const taskModel = require("./../../db/models/task");
 
-//Sow all tasks for Admin
+//Show all tasks for Admin
 const tasks = (req, res) => {
   taskModel
     .find({})
