@@ -9,6 +9,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
+const roleRouter = require("./routers/routes/role");
+app.use(roleRouter);
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server on ${process.env.PORT}`);
