@@ -92,22 +92,32 @@ const updateTask = (req, res) => {
 
 // delete task
 const deleteTask = (req, res) => {
-    const { id } = req.params;
-    const { name, isDel } = req.body;
-  
-    taskModel
-      .findOneAndUpdate({id, isDel: { $eq: false }}, { isDel: true }, { new: true })
-      .exec()
-      .then((result) => {
-        if (result) {
-          res.status(201).send(result);
-        } else {
-          res.status(404).send("It's deleted");
-        }
-      })
-      .catch((err) => {
-        res.status(400).send(err);
-      });
-  };
+  const { id } = req.params;
 
-module.exports = { tasks, createTask, task, delatedTask, updateTask, deleteTask };
+  taskModel
+    .findOneAndUpdate(
+      { id, byUser: req.token.id, isDel: { $eq: false } },
+      { isDel: true },
+      { new: true }
+    )
+    .exec()
+    .then((result) => {
+      if (result) {
+        res.status(201).send(result);
+      } else {
+        res.status(404).send("It's deleted");
+      }
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+module.exports = {
+  tasks,
+  createTask,
+  task,
+  delatedTask,
+  updateTask,
+  deleteTask,
+};
