@@ -12,7 +12,7 @@ const signup = async (req, res) => {
   const newUser = new userModel({
     email: savedEmail,
     password: hashedPassword,
-    role
+    role,
   });
 
   newUser
@@ -41,7 +41,7 @@ const signin = (req, res) => {
           );
           if (checkedPassword) {
             const payload = { id: result._id, role: result.role };
-            const options = { expiresIn: '1h' };
+            const options = { expiresIn: "1h" };
             const secret = process.env.secretKey;
             const token = await jwt.sign(payload, secret, options);
             res.status(200).send({ result, token });
@@ -60,4 +60,32 @@ const signin = (req, res) => {
     });
 };
 
-module.exports = { signup, signin };
+const users = (req, res) => {
+  userModel
+    .find({})
+    .then((result) => {
+      res.status(201).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const deleteUser = (req, res) => {
+  const { id } = req.params;
+
+  userModel
+    .findByIdAndDelete(id)
+    .then((result) => {
+      if (result) {
+        res.status(201).send(result);
+      } else {
+        res.status(404).send("User already deleted");
+      }
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+module.exports = { signup, signin, users, deleteUser };
