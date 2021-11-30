@@ -18,4 +18,15 @@ const create = (req, res) => {
     });
 };
 
-module.exports = { create };
+const roles = (req, res) => {
+  rolerModel
+    .find({})
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+module.exports = { create, roles };
