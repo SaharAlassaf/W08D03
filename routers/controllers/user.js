@@ -40,7 +40,7 @@ const signin = (req, res) => {
             result.password
           );
           if (checkedPassword) {
-            const payload = { id: result._id, role: result.role.role };
+            const payload = { id: result._id, role: result.role };
             const options = { expiresIn: "1h" };
             const secret = process.env.secretKey;
             const token = await jwt.sign(payload, secret, options);
@@ -64,7 +64,7 @@ const users = (req, res) => {
   userModel
     .find({})
     .then((result) => {
-      res.status(201).send(result);
+      res.status(200).send(result);
     })
     .catch((err) => {
       res.status(400).send(err);
