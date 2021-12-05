@@ -4,7 +4,7 @@ const taskModel = require("./../../db/models/task");
 //Show all tasks for Admin
 const tasks = (req, res) => {
   taskModel
-    .find({ isDel: { $eq: true } })
+    .find({ isDel: { $eq: false } })
     .populate("byUser")
     .then((result) => {
       res.status(201).send(result);
@@ -14,19 +14,16 @@ const tasks = (req, res) => {
     });
 };
 
-//Show task by id
+// Show user task 
 const task = (req, res) => {
   const { id } = req.params;
   taskModel
-    .findById(id)
-    .where("isDel")
-    .equals(false)
-    .exec()
+    .findOne({ byUser: id, isDel: { $eq: false } })
     .then((result) => {
       if (result) {
         res.status(201).send(result);
       } else {
-        res.status(404).send("Task is not exist");
+        res.status(404).send("There is no tasks");
       }
     })
     .catch((err) => {
@@ -34,16 +31,22 @@ const task = (req, res) => {
     });
 };
 
-//Show deleted task for Admin
-const delatedTask = (req, res) => {
+// deleted task for Admin
+const delatedTasks = (req, res) => {
+  const { id } = req.params;
+
   taskModel
-    .find({ isDel: { $eq: false } })
+    .findOneAndUpdate(
+      { _id: id, isDel: { $eq: false } },
+      { isDel: true },
+      { new: true }
+    )
     .exec()
     .then((result) => {
       if (result) {
         res.status(201).send(result);
       } else {
-        res.status(404).send("There is no task");
+        res.status(404).send("It's deleted");
       }
     })
     .catch((err) => {
@@ -76,7 +79,11 @@ const updateTask = (req, res) => {
   const { name, isDel } = req.body;
 
   taskModel
-    .findByIdAndUpdate(id, { name, isDel }, { new: true })
+    .findOneAndUpdate(
+      { _id: id, byUser: req.token.id, isDel: { $eq: false } },
+      { name, isDel },
+      { new: true }
+    )
     .exec()
     .then((result) => {
       if (result) {
@@ -117,7 +124,7 @@ module.exports = {
   tasks,
   createTask,
   task,
-  delatedTask,
+  delatedTasks,
   updateTask,
   deleteTask,
 };

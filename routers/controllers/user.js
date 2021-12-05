@@ -41,7 +41,7 @@ const signin = (req, res) => {
           );
           if (checkedPassword) {
             const payload = { id: result._id, role: result.role };
-            const options = { expiresIn: "1h" };
+            const options = { expiresIn: "5h" };
             const secret = process.env.secretKey;
             const token = await jwt.sign(payload, secret, options);
             res.status(200).send({ result, token });
