@@ -31,7 +31,7 @@ const signin = (req, res) => {
   const savedEmail = email.toLowerCase();
 
   userModel
-    .findOne({ email: savedEmail })
+    .findOne({ email: savedEmail }).populate("role")
     .then(async (result) => {
       if (result) {
         if (result.email == savedEmail) {
@@ -40,7 +40,7 @@ const signin = (req, res) => {
             result.password
           );
           if (checkedPassword) {
-            const payload = { id: result._id, role: result.role };
+            const payload = { id: result._id, role: result.role.role };
             const options = { expiresIn: "1h" };
             const secret = process.env.secretKey;
             const token = await jwt.sign(payload, secret, options);

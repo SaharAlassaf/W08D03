@@ -4,7 +4,7 @@ const taskModel = require("./../../db/models/task");
 //Show all tasks for Admin
 const tasks = (req, res) => {
   taskModel
-    .find({})
+    .find({ isDel: { $eq: true } })
     .populate("byUser")
     .then((result) => {
       res.status(201).send(result);
