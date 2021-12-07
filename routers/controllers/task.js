@@ -16,11 +16,10 @@ const tasks = (req, res) => {
 
 // Show user task 
 const task = (req, res) => {
-  const { id } = req.params;
   taskModel
-    .findOne({ byUser: id, isDel: { $eq: false } })
+    .find({ byUser: req.token.id, isDel: { $eq: false } })
     .then((result) => {
-      if (result) {
+      if (result.length > 0) {
         res.status(201).send(result);
       } else {
         res.status(404).send("There is no tasks");
@@ -103,7 +102,7 @@ const deleteTask = (req, res) => {
 
   taskModel
     .findOneAndUpdate(
-      { id, byUser: req.token.id, isDel: { $eq: false } },
+      { _id: id, byUser: req.token.id, isDel: { $eq: false } },
       { isDel: true },
       { new: true }
     )
