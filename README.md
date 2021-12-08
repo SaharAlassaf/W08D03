@@ -48,4 +48,12 @@ In that file you'll find two sections:
 | morgan                        | HTTP request logger middleware for node.js                                                |
 | nodemon                        | nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.                                                                                      |
 
+# ER diagram
+
+<img width="664" alt="Screen Shot 1443-05-04 at 1 51 20 PM" src="https://user-images.githubusercontent.com/92248067/145268923-d69cf788-3f10-4344-b90e-fa9fed4f5e90.png">
+
+# UML diagram
+
+![Influence Diagram Template (2)](https://user-images.githubusercontent.com/92248067/145268989-0b4eb3d9-167f-49dd-9827-b95a56a18b59.jpg)
+
 
