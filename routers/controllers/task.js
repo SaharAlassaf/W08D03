@@ -7,7 +7,7 @@ const tasks = (req, res) => {
     .find({ isDel: { $eq: false } })
     .populate("byUser")
     .then((result) => {
-      res.status(201).send(result);
+      res.status(200).send(result);
     })
     .catch((err) => {
       res.status(400).send(err);
@@ -43,7 +43,7 @@ const delatedTasks = (req, res) => {
     .exec()
     .then((result) => {
       if (result) {
-        res.status(201).send(result);
+        res.status(200).send(result);
       } else {
         res.status(404).send("It's deleted");
       }
@@ -86,7 +86,7 @@ const updateTask = (req, res) => {
     .exec()
     .then((result) => {
       if (result) {
-        res.status(201).send(result);
+        res.status(200).send(result);
       } else {
         res.status(404).send("Failed update");
       }
@@ -109,7 +109,7 @@ const deleteTask = (req, res) => {
     .exec()
     .then((result) => {
       if (result) {
-        res.status(201).send(result);
+        res.status(200).send(result);
       } else {
         res.status(404).send("It's deleted");
       }
