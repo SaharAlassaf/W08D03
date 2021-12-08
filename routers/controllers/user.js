@@ -21,7 +21,7 @@ const signup = async (req, res) => {
       res.status(200).send(result);
     })
     .catch((err) => {
-      res.status(404).send(err);
+      res.status(400).send(err);
     });
 };
 
@@ -78,9 +78,9 @@ const deleteUser = (req, res) => {
     .findByIdAndDelete(id)
     .then((result) => {
       if (result) {
-        res.status(201).send(result);
+        res.status(200).send(result);
       } else {
-        res.status(404).send("User already deleted");
+        res.status(400).send("User already deleted");
       }
     })
     .catch((err) => {
